@@ -1,0 +1,76 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: valkyrie-platform
+  description: The Valkyrie Autonomous DevOps Platform
+spec:
+  owner: team-platform
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: voting-app-vote
+  description: The Python frontend for casting votes.
+  tags:
+    - python
+    - frontend
+spec:
+  type: website
+  lifecycle: production
+  owner: team-app
+  system: valkyrie-platform
+  dependsOn:
+    - resource:voting-app-redis
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: voting-app-result
+  description: The Node.js frontend for displaying voting results.
+  tags:
+    - nodejs
+    - frontend
+spec:
+  type: website
+  lifecycle: production
+  owner: team-app
+  system: valkyrie-platform
+  dependsOn:
+    - resource:voting-app-db
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: voting-app-worker
+  description: The .NET worker that processes votes from the queue to the database.
+  tags:
+    - dotnet
+    - backend
+spec:
+  type: service
+  lifecycle: production
+  owner: team-app
+  system: valkyrie-platform
+  dependsOn:
+    - resource:voting-app-redis
+    - resource:voting-app-db
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: voting-app-redis
+  description: Redis queue holding incoming votes.
+spec:
+  type: cache
+  owner: team-platform
+  system: valkyrie-platform
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: voting-app-db
+  description: PostgreSQL database storing final vote counts.
+spec:
+  type: database
+  owner: team-platform
+  system: valkyrie-platform

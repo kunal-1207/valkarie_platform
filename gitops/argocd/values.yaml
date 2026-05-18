@@ -1,0 +1,24 @@
+# Values for ArgoCD Helm Chart
+
+server:
+  extraArgs:
+    - --insecure # Required if we terminate TLS at the AWS ALB/Ingress later, fine for MVP port-forwarding
+  
+  config:
+    # Disable application deletion when the root app-of-apps is deleted to prevent accidental platform destruction
+    resource.compareoptions: |
+      ignoreResourceStatusField: crd
+
+controller:
+  # Enable self-healing and auto-sync globally
+  enableSelfHeal: true
+
+repoServer:
+  # Limits for helm chart rendering
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi

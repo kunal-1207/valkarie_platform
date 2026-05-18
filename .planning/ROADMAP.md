@@ -1,79 +1,134 @@
-# Project Roadmap
+# Roadmap: Valkyrie Platform
 
-## Phase 1: Foundation
-**Goal:** Establish base infrastructure, GitOps pipelines, and core cluster automation.
+## Overview
 
-**Requirements:**
-- FND-01: Provision local K3s cluster
-- FND-02: Establish GitOps Engine with ArgoCD
-- FND-03: Configure basic Terraform infrastructure management
+This roadmap defines the 14-day execution plan for building the Phase 1 MVP of the Valkyrie Platform, an autonomous DevOps platform foundation. The execution is broken down into 11 distinct phases, moving from foundational infrastructure to application delivery, observability, security, and ultimately an AI-driven incident engine with a developer portal.
 
-**Success Criteria:**
-1. A local Kubernetes cluster is running and accessible via kubectl.
-2. ArgoCD is installed and successfully syncs a test application from a Git repository.
-3. Terraform state is managed, and foundational infrastructure code exists.
+## Phases
 
-## Phase 2: Platform Engineering
-**Goal:** Deploy self-service developer portal and standardize deployment patterns.
+- [ ] **Phase 1: Infrastructure Bootstrap** - Terraform VPC, EKS cluster, node groups
+- [ ] **Phase 2: GitOps Setup** - ArgoCD, Helm, ExternalDNS
+- [ ] **Phase 3: Observability Stack** - Prometheus, Grafana, Loki, Tempo
+- [ ] **Phase 4: Demo Workload** - Sample microservice with real telemetry
+- [ ] **Phase 5: Security Layer** - Trivy, Falco, Kyverno
+- [ ] **Phase 6: Chaos Engineering** - LitmusChaos
+- [ ] **Phase 7: AI Incident Engine** - FastAPI, Ollama incident summarization
+- [ ] **Phase 8: Automated Remediation** - Auto-restart and Slack notification
+- [ ] **Phase 9: Developer Portal** - Backstage
+- [ ] **Phase 10: Documentation Sprint** - Architecture diagrams, setup guide, workflows
+- [ ] **Phase 11: Demo Video** - Polished walkthrough, chaos demo, Grafana dashboards
 
-**Requirements:**
-- PLT-01: Deploy Valkyrie Portal (Backstage)
-- PLT-02: Implement Self-service deployments via Portal
-- PLT-03: Setup RBAC and environment templates
+## Phase Details
 
-**Success Criteria:**
-1. Backstage is deployed and accessible.
-2. Developers can trigger a deployment using a software template.
-3. RBAC policies restrict unauthorized deployments.
+### Phase 1: Infrastructure Bootstrap
+**Goal**: Provision a functional EKS cluster with Terraform
+**Depends on**: Nothing
+**Requirements**: [INFRA-01, INFRA-02, INFRA-03, INFRA-04]
+**Success Criteria** (what must be TRUE):
+  1. `kubectl get nodes` works successfully.
+  2. Terraform state is managed remotely.
+**Plans**: 1 plan
 
-## Phase 3: Reliability Engineering
-**Goal:** Implement comprehensive observability and resilience testing.
+Plans:
+- [ ] 01-01: Setup Terraform and provision EKS
 
-**Requirements:**
-- REL-01: Deploy observability stack (Prometheus, Grafana, Loki, Tempo)
-- REL-02: Implement alerting and SLO dashboards
-- REL-03: Configure chaos engineering workflows (LitmusChaos)
+### Phase 2: GitOps Setup
+**Goal**: Establish GitOps delivery pipeline
+**Depends on**: Phase 1
+**Requirements**: [GITOPS-01, GITOPS-02, GITOPS-03]
+**Success Criteria** (what must be TRUE):
+  1. Committing to GitHub triggers automatic deployment via ArgoCD.
+**Plans**: TBD
 
-**Success Criteria:**
-1. Metrics, logs, and traces are aggregated and viewable in Grafana.
-2. Alerts are routed successfully based on specific triggers (e.g. latency).
-3. LitmusChaos experiments successfully simulate a pod termination without total outage.
+### Phase 3: Observability Stack
+**Goal**: Unified monitoring dashboard for metrics, logs, traces
+**Depends on**: Phase 2
+**Requirements**: [OBS-01, OBS-02, OBS-03, OBS-04, OBS-05]
+**Success Criteria** (what must be TRUE):
+  1. Grafana displays metrics, logs, and traces.
+**Plans**: TBD
 
-## Phase 4: AI Automation
-**Goal:** Integrate AI-driven event correlation, incident summarization, and autonomous remediation.
+### Phase 4: Demo Workload
+**Goal**: Deploy a microservice application to generate real telemetry
+**Depends on**: Phase 3
+**Requirements**: [DEMO-01, DEMO-02]
+**Success Criteria** (what must be TRUE):
+  1. The application generates visible telemetry in the observability stack.
+**Plans**: TBD
 
-**Requirements:**
-- AI-01: Deploy AI Root Cause Analysis engine (Cortex)
-- AI-02: Implement remediation automation
-- AI-03: Correlate events for incident summarization
+### Phase 5: Security Layer
+**Goal**: Runtime threat detection and policy enforcement
+**Depends on**: Phase 4
+**Requirements**: [SEC-01, SEC-02, SEC-03]
+**Success Criteria** (what must be TRUE):
+  1. Security policies are enforced.
+  2. Image scanning happens automatically.
+**Plans**: TBD
 
-**Success Criteria:**
-1. AI engine successfully ingests an alert and outputs an incident summary.
-2. Root cause analysis generates an actionable insight based on logs.
-3. Remediation workflow executes an automated action based on the AI recommendation.
+### Phase 6: Chaos Engineering
+**Goal**: Introduce controlled failures to test resilience
+**Depends on**: Phase 5
+**Requirements**: [CHAOS-01, CHAOS-02, CHAOS-03, CHAOS-04]
+**Success Criteria** (what must be TRUE):
+  1. Chaos experiments execute and observability stack captures the impact.
+**Plans**: TBD
 
-## Phase 5: Security + FinOps
-**Goal:** Enforce runtime security policies and optimize infrastructure cost.
+### Phase 7: AI Incident Engine
+**Goal**: Build FastAPI service for AI-driven incident summarization
+**Depends on**: Phase 6
+**Requirements**: [AI-01, AI-02, AI-03]
+**Success Criteria** (what must be TRUE):
+  1. Service ingests alerts and outputs JSON summaries with probable causes and recommendations.
+**Plans**: TBD
 
-**Requirements:**
-- SEC-01: Implement runtime security and image signing
-- SEC-02: Enforce DevSecOps policies
-- FIN-01: Deploy Kubecost for cost optimization and rightsizing recommendations
+### Phase 8: Automated Remediation
+**Goal**: Automatically resolve specific incidents and notify teams
+**Depends on**: Phase 7
+**Requirements**: [AUTO-01, AUTO-02, AUTO-03]
+**Success Criteria** (what must be TRUE):
+  1. Failed pods are detected and auto-restarted.
+  2. Slack notifications are sent.
+**Plans**: TBD
 
-**Success Criteria:**
-1. Unsigned container images are blocked from running by admission controllers.
-2. Runtime anomalies trigger security alerts (via Falco).
-3. Kubecost reports show current cluster spend and optimization recommendations.
+### Phase 9: Developer Portal
+**Goal**: Provide a unified developer portal
+**Depends on**: Phase 8
+**Requirements**: [PORTAL-01, PORTAL-02, PORTAL-03]
+**Success Criteria** (what must be TRUE):
+  1. Backstage service catalog lists the deployed services.
+**Plans**: TBD
 
-## Phase 6: Enterprise Features
-**Goal:** Multi-cluster federation, disaster recovery, and fleet management.
+### Phase 10: Documentation Sprint
+**Goal**: Complete project documentation
+**Depends on**: Phase 9
+**Requirements**: [DOC-01, DOC-02, DOC-03, DOC-04]
+**Success Criteria** (what must be TRUE):
+  1. Architecture, setup guide, and incident workflows are fully documented.
+**Plans**: TBD
 
-**Requirements:**
-- ENT-01: Setup multi-cluster federation (Rancher)
-- ENT-02: Configure Disaster Recovery and Fleet Management
-- ENT-03: Setup Cross-region failover
+### Phase 11: Demo Video
+**Goal**: Record a polished demo video of the platform
+**Depends on**: Phase 10
+**Requirements**: []
+**Success Criteria** (what must be TRUE):
+  1. A video demonstrating chaos testing, AI remediation, and observability is produced.
+**Plans**: TBD
 
-**Success Criteria:**
-1. Multiple clusters are managed via a single control plane (Rancher).
-2. A cluster backup is successfully restored using Velero or similar tools.
-3. Cross-region failover can be simulated successfully.
+## Progress
+
+**Execution Order:**
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11
+
+| Phase | Plans Complete | Status | Completed |
+|-------|----------------|--------|-----------|
+| 1. Infrastructure Bootstrap | 0/1 | Not started | - |
+| 2. GitOps Setup | 0/0 | Not started | - |
+| 3. Observability Stack | 0/0 | Not started | - |
+| 4. Demo Workload | 0/0 | Not started | - |
+| 5. Security Layer | 0/0 | Not started | - |
+| 6. Chaos Engineering | 0/0 | Not started | - |
+| 7. AI Incident Engine | 0/0 | Not started | - |
+| 8. Automated Remediation | 0/0 | Not started | - |
+| 9. Developer Portal | 0/0 | Not started | - |
+| 10. Documentation Sprint | 0/0 | Not started | - |
+| 11. Demo Video | 0/0 | Not started | - |

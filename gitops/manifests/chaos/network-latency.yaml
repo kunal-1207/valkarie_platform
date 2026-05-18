@@ -1,0 +1,21 @@
+apiVersion: litmuschaos.io/v1alpha1
+kind: ChaosEngine
+metadata:
+  name: network-latency-chaos
+  namespace: demo
+spec:
+  engineState: "active"
+  appinfo:
+    appns: "demo"
+    applabel: "app=db"
+    appkind: "deployment"
+  chaosServiceAccount: chaos-admin
+  experiments:
+    - name: generic-pod-network-latency
+      spec:
+        components:
+          env:
+            - name: NETWORK_LATENCY
+              value: "2000"
+            - name: TOTAL_CHAOS_DURATION
+              value: "60"

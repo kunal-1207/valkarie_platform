@@ -1,79 +1,27 @@
-# Phase 1: Foundation - Context
+# Phase 1: Infrastructure Bootstrap
 
-**Gathered:** 2026-05-16
-**Status:** Ready for planning
-**Source:** PRD Express Path (from User Request)
+## Context
 
-<domain>
-## Phase Boundary
+This is the foundational phase of the Valkyrie Platform, a production-grade autonomous DevOps platform. In this phase, we establish the core infrastructure that all subsequent phases will build upon. 
 
-Phase 1 focuses on building a stable, production-style Kubernetes platform foundation for Valkyrie Platform. The primary goals are operational reliability, clean architecture, reproducible infrastructure, GitOps workflows, observability maturity, and production-grade engineering standards. It is NOT feature complete, but serves as the bedrock for future phases.
-</domain>
+We will use Terraform to provision an AWS Elastic Kubernetes Service (EKS) cluster along with the necessary Virtual Private Cloud (VPC) networking, subnets, and IAM roles.
 
-<decisions>
-## Implementation Decisions
+## Requirements
 
-### Infrastructure & Orchestration
-- Use K3d locally for a lightweight multi-node cluster.
-- Enforce namespace isolation, resource quotas, health probes, and RBAC policies.
-- Provision infrastructure using Terraform with remote-state-ready structure and environment-based layouts.
-- Prefer Helm charts for application deployments.
-- NGINX ingress controller must be deployed.
+- **INFRA-01**: Provision AWS EKS cluster using Terraform
+- **INFRA-02**: Provision VPC, Subnets, and IAM roles using Terraform
+- **INFRA-03**: Configure remote Terraform state
+- **INFRA-04**: Output valid `kubectl get nodes` access
 
-### GitOps & CI/CD
-- Use ArgoCD as the deployment controller.
-- Git must be the single source of truth (declarative manifests).
-- GitHub Actions pipeline should: lint, test, build Docker images, scan with Trivy, push to GHCR, and update manifests.
+## Success Criteria
 
-### Observability
-- Monitoring stack MUST include Prometheus, Grafana, and Loki.
-- Dashboards should surface CPU, memory, pod health, request latency, error rates, deployment health, and golden signals.
+1. Terraform successfully applies the infrastructure without errors.
+2. The remote state backend is configured and working (e.g., S3 + DynamoDB).
+3. The EKS cluster is active and reachable.
+4. `kubectl get nodes` returns the configured node groups in a `Ready` state.
 
-### Repository Architecture
-- Use a monorepo structure initially (e.g., `infrastructure/`, `kubernetes/`, `apps/`, `monitoring/`, `docs/`, `scripts/`, `.github/`).
+## Constraints
 
-### Documentation
-- Every major component requires a README, architecture notes, deployment instructions, and troubleshooting guidance.
-
-### the agent's Discretion
-- Specific configurations for K3d nodes, Prometheus scrape targets, Grafana dashboards layout, and the content of the demo microservice application.
-- Terraform structure details (module organization).
-</decisions>
-
-<canonical_refs>
-## Canonical References
-
-**Downstream agents MUST read these before planning or implementing.**
-
-### Project Scope
-- `.planning/PROJECT.md` — Core value and context
-- `.planning/REQUIREMENTS.md` — Phase 1 Requirements mapping
-- `.planning/ROADMAP.md` — Phase definitions
-</canonical_refs>
-
-<specifics>
-## Specific Ideas
-
-- Must deploy a demo microservice application to validate the pipeline and GitOps workflow.
-- Platform must survive pod restarts cleanly to demonstrate resilience.
-- Avoid premature complexity: Simplicity, Stability, Reproducibility, Maintainability, Observability, and GitOps-first.
-</specifics>
-
-<deferred>
-## Deferred Ideas
-
-- AI systems, LangGraph, Cortex
-- Multi-cloud orchestration, Crossplane, Rancher
-- Service mesh, Istio
-- Backstage (Portal)
-- Chaos engineering (LitmusChaos)
-- FinOps (Kubecost)
-- Security automation, Runtime threat detection (Falco, Kyverno)
-- Kafka/NATS
-- Disaster recovery, Multi-cluster federation
-</deferred>
-
----
-
-*Phase: 01-foundation*
-*Context gathered: 2026-05-16 via PRD Express Path*
+- AWS as the cloud provider.
+- Terraform for Infrastructure as Code.
+- Must focus on operational realism, ensuring the infrastructure is production-grade, secure, and properly structured.

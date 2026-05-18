@@ -2,63 +2,60 @@
 
 ## What This Is
 
-Valkyrie Platform is a production-grade autonomous cloud reliability and platform engineering ecosystem designed to simulate real-world enterprise DevOps, SRE, DevSecOps, and AI-driven infrastructure operations. It automates infrastructure provisioning, enables self-service deployments, provides deep observability, and executes self-healing remediation.
+A production-grade autonomous DevOps platform foundation. It features Kubernetes infrastructure, GitOps delivery, comprehensive observability, and AI-driven incident summarization and automated remediation.
 
 ## Core Value
 
-Demonstrate enterprise-scale platform engineering architecture and advanced DevOps/SRE capabilities in a modular, autonomous, and self-remediating cloud-native ecosystem.
+An operationally realistic, tightly integrated operational platform. Integration quality beats a disconnected collection of advanced features.
 
 ## Requirements
 
 ### Validated
 
-<!-- Shipped and confirmed valuable. -->
-
 (None yet — ship to validate)
 
 ### Active
 
-<!-- Current scope. Building toward these. -->
-
-- [ ] Automated infrastructure provisioning with Terraform and GitOps (ArgoCD)
-- [ ] Internal Developer Portal (Backstage) for self-service deployments
-- [ ] Comprehensive observability stack (Prometheus, Grafana, Loki, Tempo)
-- [ ] AI-powered incident analysis and remediation engine (Cortex)
-- [ ] Chaos engineering resilience validation (LitmusChaos)
-- [ ] DevSecOps runtime security and supply chain enforcement (Trivy, Falco, Kyverno)
-- [ ] FinOps optimization and infrastructure cost intelligence (Kubecost)
-- [ ] Multi-cluster orchestration and disaster recovery (Rancher, Crossplane)
+- [ ] GitOps deployment pipeline
+- [ ] Kubernetes production stack
+- [ ] Comprehensive monitoring + tracing
+- [ ] Security scanning layer
+- [ ] Chaos testing capabilities
+- [ ] AI incident summaries
+- [ ] Automated remediation
+- [ ] Developer portal
 
 ### Out of Scope
 
-<!-- Explicit boundaries. Includes reasoning to prevent re-adding. -->
-
-- Manual infrastructure provisioning — all infrastructure should be declarative and automated via GitOps and Terraform.
-- Consumer-facing product features — designed as an internal ecosystem and recruiter portfolio, not a public-facing SaaS platform.
+- Over-engineering microservices early — focus on MVP operational realism.
+- Adding 40 tools — focus on tightly integrated foundational stack.
+- Building custom Kubernetes operators immediately — use existing stable helm charts and operators.
+- Prematurely optimizing AI — start with basic FastAPI + Ollama incident summarization.
+- Chasing perfection — the goal is an MVP centerpiece within 14 days.
 
 ## Context
 
-This project aims to simulate a modern internal cloud operations product similar in philosophy to systems built by companies like Netflix, Datadog, HashiCorp, and Cloudflare. It is designed to act as a recruiter-grade portfolio ecosystem, demonstrating technical maturity across multiple cloud-native disciplines.
+- Building a top-tier DevOps portfolio centerpiece.
+- Timeframe is a strict 14-day execution plan.
+- Every feature built must be:
+  - Running in Kubernetes
+  - Observable
+  - Logged
+  - Automated
+  - Documented
+  - Demoable
 
 ## Constraints
 
-- **Architecture**: Must be Kubernetes-native and modular (K3s local, EKS/GKE cloud).
-- **Automation**: Must use GitOps workflows (ArgoCD) for CD and CI via GitHub Actions.
-- **Security**: Must enforce supply chain security, runtime anomaly detection, and least privilege.
-- **Cost**: Local environment using K3s, and optimized cloud scaling based on FinOps principles to manage expenses.
+- **Tech Stack**: AWS EKS, Terraform, ArgoCD, Prometheus, Grafana, Loki, Tempo, Falco, Trivy, LitmusChaos, FastAPI, Ollama, Backstage. — Locked stack requirements.
+- **Integration**: A tightly integrated operational platform beats disconnected features — That's how senior infrastructure teams evaluate engineers.
 
 ## Key Decisions
 
-<!-- Decisions that constrain future work. Add throughout project lifecycle. -->
-
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| GitOps First | Ensures declarative, reproducible infrastructure and deployments | — Pending |
-| AI Integration | AI engine (Cortex) required for autonomous incident analysis and remediation to show modern SRE maturity | — Pending |
-| Modular Platforms | Breaking into bounded contexts (Core, Forge, Portal, Sentinel, Cortex, Chaos, Shield, CostGuard, Nexus) ensures maintainability | — Pending |
-
----
-*Last updated: 2026-05-16 after initialization*
+| No custom K8s operators | Avoid early over-engineering and focus on core integrations | — Pending |
+| AI for incident summarization | Demonstrates advanced operational AI use cases, easily demoable | — Pending |
 
 ## Evolution
 
@@ -76,3 +73,6 @@ This document evolves at phase transitions and milestone boundaries.
 2. Core Value check — still the right priority?
 3. Audit Out of Scope — reasons still valid?
 4. Update Context with current state
+
+---
+*Last updated: 2026-05-16 after initialization*

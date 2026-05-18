@@ -1,0 +1,21 @@
+apiVersion: litmuschaos.io/v1alpha1
+kind: ChaosEngine
+metadata:
+  name: cpu-hog-chaos
+  namespace: demo
+spec:
+  engineState: "active"
+  appinfo:
+    appns: "demo"
+    applabel: "app=worker"
+    appkind: "deployment"
+  chaosServiceAccount: chaos-admin
+  experiments:
+    - name: generic-pod-cpu-hog
+      spec:
+        components:
+          env:
+            - name: CPU_CORES
+              value: "1"
+            - name: TOTAL_CHAOS_DURATION
+              value: "60"

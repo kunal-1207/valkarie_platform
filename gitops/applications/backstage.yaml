@@ -1,0 +1,47 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: backstage
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://backstage.github.io/charts
+    targetRevision: 1.8.1
+    chart: backstage
+    helm:
+      values: |
+        postgresql:
+          enabled: true
+          auth:
+            username: postgres
+            password: postgrespassword
+            database: backstage
+        backstage:
+          # In a real environment, you'd configure the appConfig to automatically
+          # read the catalog-info.yaml from your GitHub repo using a token.
+          appConfig:
+            app:
+              baseUrl: http://localhost:7007
+            backend:
+              baseUrl: http://localhost:7007
+              listen:
+                port: 7007
+              database:
+                client: pg
+                connection:
+                  host: backstage-postgresql
+                  port: 5432
+                  user: postgres
+                  password: postgrespassword
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: backstage
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

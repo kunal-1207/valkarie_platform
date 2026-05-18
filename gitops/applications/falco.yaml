@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: falco
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://falcosecurity.github.io/charts
+    targetRevision: 4.6.0
+    chart: falco
+    helm:
+      values: |
+        driver:
+          # Use eBPF driver for modern kernel support (especially in managed EKS)
+          kind: ebpf
+        tty: true
+        # Forward alerts to stdout for easy collection by Loki
+        falco:
+          json_output: true
+          json_include_output_property: true
+          http_output:
+            enabled: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: falco
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

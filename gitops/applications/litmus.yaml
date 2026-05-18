@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: litmus
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://litmuschaos.github.io/litmus-helm/
+    targetRevision: 3.3.0
+    chart: litmus
+    helm:
+      values: |
+        portal:
+          server:
+            service:
+              type: NodePort
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: litmus
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

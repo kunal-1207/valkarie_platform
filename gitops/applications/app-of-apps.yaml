@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: valkyrie-root
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    # Update this repoURL with your actual GitHub repository URL later
+    repoURL: https://github.com/your-org/valkyrie-platform.git
+    targetRevision: main
+    path: gitops/applications
+    directory:
+      recurse: true
+      include: '*.yaml'
+      exclude: 'app-of-apps.yaml' # Exclude itself to avoid infinite loop of applying
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
